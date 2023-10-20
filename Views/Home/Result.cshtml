@@ -1,0 +1,28 @@
+﻿@model List<string>
+
+@{
+    ViewData["Title"] = "Result Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Result</h1>
+</div>
+
+<div class="container">
+    @if (Model != null && Model.Count > 0)
+    {
+        <h2>Textos Extraídos dos PDFs:</h2>
+        <ul>
+            @foreach (var text in Model)
+            {
+                <li>
+                    <pre>@text</pre>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Nenhum texto foi extraído dos PDFs.</p>
+    }
+</div>

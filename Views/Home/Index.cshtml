@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    @*<form id="myForm" method="post" enctype="multipart/form-data" onsubmit="AJAXSubmit(this);return false;" action="/Home/LerPDF">*@
+    @*<form id="myForm" method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="LerPDF">*@
+    <form name="formUpdate" id="formUpdate">
+        <div class="form-group">
+            <label for="nota">Nota Fiscal:</label>
+            <input type="file" id="nota" name="nota" accept=".pdf" required>
+        </div>
+
+        <div class="form-group">
+            <label for="comprovanteimposto">Comprovante de pagamento de imposto:</label>
+            <input type="file" id="comprovanteimposto" name="comprovanteimposto" accept=".pdf" required>
+        </div>
+        <button type="button" onclick="send();">Enviar</button>
+    </form>
+    <div style="margin-top:15px">
+        <output name="result"></output>
+    </div>
+</div>
+
+<script>
+    function send() {
+        var form_data = new FormData($('#formUpdate')[0])
+
+        // Iterando sobre os pares chave/valor em FormData e imprimindo-os
+        form_data.forEach(function (value, key) {
+            console.log(key, value);
+        });
+
+        // Convertendo FormData em um objeto JSON para visualização mais legível
+        var formDataObject = {};
+        form_data.forEach(function (value, key) {
+            formDataObject[key] = value;
+        });
+        console.log(formDataObject);
+
+        console.log(form_data)
+        $.ajax({
+            url: '/Home/LerPDF',
+            method: 'post',
+            data: form_data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+
+
+                // Exibindo o resultado no console
+                console.log(result);
+            }
+        });
+    }
+</script>
+
+
+@*<script>
+    async function AJAXSubmit(oFormElement) {
+        var resultElement = document.querySelector('output[name="result"]');
+        var formData = new FormData(oFormElement);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", oFormElement.action, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                resultElement.textContent = 'Result: ' + xhr.status + ' ' + xhr.statusText;
+            } else if (xhr.readyState === 4) {
+                resultElement.textContent = 'Erro: ' + xhr.status + ' ' + xhr.statusText;
+            }
+        };
+        xhr.send(formData);
+    }
+</script>*@
+
+
+
+
